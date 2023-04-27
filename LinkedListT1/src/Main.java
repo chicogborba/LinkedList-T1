@@ -1,10 +1,12 @@
+// Nomes: Francisco Borba e Matheus Magri
+
 import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
         Random rand = new Random();
 
-        // Adicionando 100000 elementos em cada uma das listas das 3 etapas
+        // Adicionando 100.000 elementos em cada uma das listas das 3 etapas
         LinkedListOfInteger lista1 = new LinkedListOfInteger();
         for (int i = 0; i < 100000; i++) {
             lista1.add(rand.nextInt(1000));
@@ -26,6 +28,7 @@ public class Main {
             // A cada 100 operacoes, atualiza o current para o meio da lista
             if (i % 100 == 0) {
                 lista2.setCurrentMiddle();
+                lista3.setCurrentMiddle();
             }
 
             // Gera um numero que define qual operacao sera executada

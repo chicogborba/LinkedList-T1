@@ -1,3 +1,4 @@
+// Nomes: Francisco Borba e Matheus Magri
 
 public class LinkedListOfIntegerDoubleCurrent {
 
