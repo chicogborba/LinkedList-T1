@@ -1,5 +1,5 @@
 
-public class LinkedListOfInteger {
+public class LinkedListOfIntegerCurrent {
 
     // Classe interna Node
     private class Node {
@@ -25,15 +25,20 @@ public class LinkedListOfInteger {
     private int count;
     // Contador para quantidade de vezes que o aux = aux.next foi executado
     private int countAux;
+    // Ultimo elemento acessado na lista
+    private Node current;
+    private int currentIndex;
 
     /**
      * Construtor da lista.
      */
-    public LinkedListOfInteger() {
+    public LinkedListOfIntegerCurrent() {
         head = null;
         tail = null;
         count = 0;
         countAux = 0;
+        current = null;
+        currentIndex = -1;
     }
 
     /**
@@ -58,6 +63,7 @@ public class LinkedListOfInteger {
             tail.next = n;
         }
         tail = n;
+
         count++;
     }
 
@@ -97,6 +103,8 @@ public class LinkedListOfInteger {
             n.next = ant.next;
             ant.next = n;
         }
+        current = n;
+        currentIndex = index;
     }
 
     /**
@@ -118,16 +126,30 @@ public class LinkedListOfInteger {
             if (count == 1) // se tinha apenas 1 elemento na lista
                 tail = null;
             count--; // atualiza o contador
+            current = head;
+            currentIndex = 0;
             return elem;
         }
 
         // Se remocao do ultimo ou do meio
-        Node aux = head;
+        Node aux;
         Node ant = null;
-        for (int i = 0; i < index; i++) {
-            ant = aux;
-            aux = aux.next;
-            countAux++;
+        if (index > currentIndex && current != null) { // buscar a partir do nó atual
+            aux = current;
+            for (int i = currentIndex; i < index; i++) {
+                ant = aux;
+                aux = aux.next == null ? head : aux.next;
+                countAux++;
+            }
+        } else { // buscar a partir da cabeça da lista
+            aux = head;
+            for (int i = 0; i < index; i++) {
+                ant = aux;
+                aux = aux.next;
+                countAux++;
+            }
+            // atualiza o nó atual e o índice atual
+            current = ant;
         }
         if (aux == tail) { // se remocao do ultimo
             tail = ant;
@@ -136,6 +158,8 @@ public class LinkedListOfInteger {
             ant.next = aux.next;
         }
         count--;
+        current = ant;
+        currentIndex = index - 1;
         return aux.element;
     }
 
@@ -150,9 +174,12 @@ public class LinkedListOfInteger {
     public int indexOf(Integer element) {
         Node aux = head;
         for (int i = 0; i < count; i++) {
-            if (aux.element.equals(element))
+            if (aux.element.equals(element)) {
+                current = aux;
+                currentIndex = i;
                 return i;
-            aux = aux.next;
+            }
+            aux = aux.equals(tail) ? head : aux.next;
             countAux++;
         }
         return -1;
@@ -160,5 +187,12 @@ public class LinkedListOfInteger {
 
     public String getCountAux() {
         return "countAux: " + countAux;
+    }
+
+    public void setCurrentMiddle() {
+        current = head;
+        for (int i = 0; i < count / 2; i++) {
+            current = current.next;
+        }
     }
 }
