@@ -211,6 +211,7 @@ public class LinkedListOfIntegerMultiCurrent {
             currentIndexes[i] = index;
             for (int j = 0; j < spreed; j++) {
                 aux = aux.next;
+                countAux++;
                 index++;
             }
         }

@@ -17,7 +17,7 @@ public class Main {
             lista2.add(rand.nextInt(1000));
         }
 
-        // Colocando 10 currents espalhados pela lista 3
+        // Colocando 100 currents espalhados pela lista 3
         LinkedListOfIntegerMultiCurrent lista3 = new LinkedListOfIntegerMultiCurrent(100);
         for (int i = 0; i < 100000; i++) {
             lista3.add(rand.nextInt(1000));
