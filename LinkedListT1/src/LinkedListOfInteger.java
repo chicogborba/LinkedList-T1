@@ -135,6 +135,7 @@ public class LinkedListOfInteger {
             tail.next = null;
         } else { // remocao do meio
             ant.next = aux.next;
+            countAux++;
         }
         count--;
         return aux.element;

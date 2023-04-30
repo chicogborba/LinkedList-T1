@@ -157,6 +157,7 @@ public class LinkedListOfIntegerCurrent {
             tail.next = null;
         } else { // remocao do meio
             ant.next = aux.next;
+            countAux++;
         }
         count--;
         current = ant;
@@ -194,6 +195,7 @@ public class LinkedListOfIntegerCurrent {
         current = head;
         for (int i = 0; i < count / 2; i++) {
             current = current.next;
+            countAux++;
         }
     }
 }

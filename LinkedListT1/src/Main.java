@@ -17,10 +17,13 @@ public class Main {
             lista2.add(rand.nextInt(1000));
         }
 
-        LinkedListOfIntegerDoubleCurrent lista3 = new LinkedListOfIntegerDoubleCurrent();
+        // Colocando 10 currents espalhados pela lista 3
+        LinkedListOfIntegerMultiCurrent lista3 = new LinkedListOfIntegerMultiCurrent(100);
         for (int i = 0; i < 100000; i++) {
             lista3.add(rand.nextInt(1000));
         }
+        // Distribuindo os currents pela lista
+        lista3.spreedCurrents();
 
         // Gerando 10.000 operacoes aleatorias de add, indexOf e removeByIndex
         // aleatoriamente
@@ -28,7 +31,6 @@ public class Main {
             // A cada 100 operacoes, atualiza o current para o meio da lista
             if (i % 100 == 0) {
                 lista2.setCurrentMiddle();
-                lista3.setCurrentMiddle();
             }
 
             // Gera um numero que define qual operacao sera executada

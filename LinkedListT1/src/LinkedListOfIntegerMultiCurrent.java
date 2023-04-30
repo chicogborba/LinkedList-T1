@@ -1,6 +1,6 @@
 // Nomes: Francisco Borba e Matheus Magri
 
-public class LinkedListOfIntegerDoubleCurrent {
+public class LinkedListOfIntegerMultiCurrent {
 
     // Classe interna Node
     private class Node {
@@ -26,27 +26,34 @@ public class LinkedListOfIntegerDoubleCurrent {
     private int count;
     // Contador para quantidade de vezes que o aux = aux.next foi executado
     private int countAux;
-    // Ultimo elemento acessado na lista
-    private Node current;
-    // Penultimo elemento acessado na lista
-    private Node current2;
-    // Indice do ultimo elemento acessado na lista
-    private int currentIndex;
-    // Indice do penultimo elemento acessado na lista
-    private int currentIndex2;
+
+    // Lista de currents
+    private Node[] currents;
+    // Lista de indexes dos currents
+    private int[] currentIndexes;
 
     /**
      * Construtor da lista.
      */
-    public LinkedListOfIntegerDoubleCurrent() {
+    public LinkedListOfIntegerMultiCurrent() {
         head = null;
         tail = null;
         count = 0;
         countAux = 0;
-        current = null;
-        current2 = null;
-        currentIndex = -1;
-        currentIndex2 = -1;
+        currents = new Node[2];
+        currentIndexes = new int[2];
+    }
+
+    /**
+     * Construtor da lista.
+     */
+    public LinkedListOfIntegerMultiCurrent(int currentsQuantity) {
+        head = null;
+        tail = null;
+        count = 0;
+        countAux = 0;
+        currents = new Node[currentsQuantity];
+        currentIndexes = new int[currentsQuantity];
     }
 
     /**
@@ -111,10 +118,6 @@ public class LinkedListOfIntegerDoubleCurrent {
             n.next = ant.next;
             ant.next = n;
         }
-        current2 = current;
-        current = n;
-        currentIndex2 = currentIndex;
-        currentIndex = index;
     }
 
     /**
@@ -136,26 +139,21 @@ public class LinkedListOfIntegerDoubleCurrent {
             if (count == 1) // se tinha apenas 1 elemento na lista
                 tail = null;
             count--; // atualiza o contador
-            current2 = current;
-            current = head;
-            currentIndex2 = currentIndex;
-            currentIndex = 0;
             return elem;
         }
 
-        // Se remocao do ultimo ou do meio
+        int currentIndex = 0;
+        for (int i = 0; i < currentIndexes.length; i++) {
+            if (currentIndexes[i] < index) {
+                currentIndex = i;
+            }
+        }
         Node aux;
         Node ant = null;
-        if (index > currentIndex2 && current2 != null) {
-            aux = current2;
-            for (int i = currentIndex2; i < index; i++) {
-                ant = aux;
-                aux = aux.next == null ? head : aux.next;
-                countAux++;
-            }
-        } else if (index > currentIndex && current != null) { // buscar a partir do nó atual
-            aux = current;
-            for (int i = currentIndex; i < index; i++) {
+        // Se remocao do ultimo ou do meio
+        if (index > currentIndexes[currentIndex] && currents[currentIndex] != null) {
+            aux = currents[currentIndex];
+            for (int i = currentIndexes[currentIndex]; i < index; i++) {
                 ant = aux;
                 aux = aux.next == null ? head : aux.next;
                 countAux++;
@@ -174,12 +172,9 @@ public class LinkedListOfIntegerDoubleCurrent {
             tail.next = null;
         } else { // remocao do meio
             ant.next = aux.next;
+            countAux++;
         }
         count--;
-        current2 = current;
-        current = ant;
-        currentIndex2 = currentIndex;
-        currentIndex = index - 1;
         return aux.element;
     }
 
@@ -195,10 +190,6 @@ public class LinkedListOfIntegerDoubleCurrent {
         Node aux = head;
         for (int i = 0; i < count; i++) {
             if (aux.element.equals(element)) {
-                current2 = current;
-                current = aux;
-                currentIndex2 = currentIndex;
-                currentIndex = i;
                 return i;
             }
             aux = aux.equals(tail) ? head : aux.next;
@@ -211,10 +202,17 @@ public class LinkedListOfIntegerDoubleCurrent {
         return "countAux: " + countAux;
     }
 
-    public void setCurrentMiddle() {
-        current = head;
-        for (int i = 0; i < count / 2; i++) {
-            current = current.next;
+    public void spreedCurrents() {
+        int spreed = count / currents.length;
+        int index = 0;
+        Node aux = head;
+        for (int i = 0; i < currents.length; i++) {
+            currents[i] = aux;
+            currentIndexes[i] = index;
+            for (int j = 0; j < spreed; j++) {
+                aux = aux.next;
+                index++;
+            }
         }
     }
 }
